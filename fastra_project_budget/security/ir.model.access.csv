@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_details,access.project.details,model_project_details,,1,1,1,1
+access_account_wht,access.account.wht,model_account_wht,,1,1,1,1
+access_project_budget_taxes,access.project.budget.taxes,model_project_budget_taxes,,1,1,1,1
+access_project_budget_request,Access.project.budget.request,model_fastra_budget_request,,1,1,1,1
+access_project_budget_request_program_manager,Access.project.budget.request.program.manager,model_fastra_budget_request,group_project_budget_caf_program_manager,1,0,0,0
+access_project_budget_request_md,Access.project.budget.request.md,model_fastra_budget_request,group_project_budget_caf_md,1,0,0,0
+access_project_budget_request_finance,Access.project.budget.request.finance,model_fastra_budget_request,group_project_budget_caf_finance,1,0,0,0
+
+access_fastra_project_fund_request,Access.fastra.project.fund.request,model_fastra_project_fund_request,,1,1,1,1
+access_fastra_project_fund_request_line,Access.fastra.project.fund.request.line,model_fastra_project_fund_request_line,,1,1,1,1
+access_fastra_project_retirement_portion_line,Access.fastra.project.retirement.portion.line,model_fastra_project_retirement_portion_line,,1,1,1,1
+access_rejection_reason_popup_wizard,Access.rejection.reason.popup.wizard,model_rejection_reason_popup_wizard,,1,1,1,1
+access_project_master_data,Access.project.master.data,model_fastra_project_master_data,,1,1,1,1
+access_fastra_project_budget_tracker,Access.fastra.project.budget.tracker,model_fastra_project_budget_tracker,,1,1,1,1
+access_fastra_project_master_data_line,Access.fastra.project.master.data.line,model_fastra_project_master_data_line,,1,1,1,1

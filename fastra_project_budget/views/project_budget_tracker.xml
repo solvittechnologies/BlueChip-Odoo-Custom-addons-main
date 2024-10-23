@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- form view -->
+        <record id="view_fastra_project_budget_tracker_form" model="ir.ui.view">
+            <field name="name">view.fastra.project.budget.tracker.form</field>
+            <field name="model">fastra.project.budget.tracker</field>
+            <field name="arch" type="xml">
+                <form name="Tracker">
+                    <header>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="start,complete"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="project_manager"/>
+                                <field name="project_description"/>
+                                <field name="project_duration"/>
+                                <field name="project_account_code"/>
+                                <field name="approved_fund_allocated" readonly="1" force_save="1"/>
+                                <field name="approved_retirement_amount" readonly="1" force_save="1"/>
+                                <field name="caf_approved_amount" readonly="1" force_save="1"/>
+                                <field name="approved_amount_balance" readonly="1" force_save="1"/>
+                                <field name="profit_loss" readonly="1" force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="request_date"/>
+                                <field name="site"/>
+                                <field name="project_location"/>
+                                <field name="po_number_id"/>
+                                <field name="po_amount"/>
+                                <field name="project_detail_id"/>
+                                <field name="caf_id" domain="[('state', '=', 'approve')]"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_fastra_project_budget_tracker_list">
+            <field name="name">view.fastra.project.budget.tracker.list</field>
+            <field name="model">fastra.project.budget.tracker</field>
+            <field name="arch" type="xml">
+                <tree string="Tracker">
+                    <field name="project_manager"/>
+                    <field name="project_description"/>
+                    <field name="project_duration"/>
+                    <field name="project_account_code"/>
+                    <field name="approved_fund_allocated"/>
+                    <field name="approved_retirement_amount"/>
+                    <field name="caf_approved_amount"/>
+                    <field name="approved_amount_balance"/>
+                    <field name="profit_loss"/>
+                    <field name="request_date"/>
+                    <field name="site"/>
+                    <field name="project_location"/>
+                    <field name="po_number_id"/>
+                    <field name="po_amount"/>
+                    <field name="project_detail_id"/>
+                    <field name="caf_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action -->
+        <record id="action_project_budget_tracker" model="ir.actions.act_window">
+            <field name="name">Tracker</field>
+            <field name="res_model">fastra.project.budget.tracker</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban,pivot,graph,activity</field>
+        </record>
+
+        <menuitem name="Tracker"
+                  id="menu_project_budget_tracker_root"
+                  action="action_project_budget_tracker"
+                  parent="fastra_project_budget.menu_action_project_budget_root"
+                  sequence="50"/>
+    </data>
+</odoo>

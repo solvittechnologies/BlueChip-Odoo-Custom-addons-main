@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_fastra_project_budget_form" model="ir.ui.view">
+        <field name="name">view.fastra.project.budget.form</field>
+        <field name="model">fastra.project.analysis</field>
+        <field name="arch" type="xml">
+            <form name="Project Analysis Extends">
+                <header>
+                    <button name="set_status_draft" type="object" states="reject" string="Set to Draft" class="oe_highlight" id="send_for_approval" />
+
+                    <button name="set_status_send_program_manager" type="object" states="draft" string="Send to Head of Department" class="oe_highlight" groups="fastra_project_budget.group_project_budget_caf_program_manager"/>
+                    <button name="set_status_md" type="object" states="send_to_head_of_department" string="Send to MD" class="oe_highlight" groups="fastra_project_budget.group_project_budget_caf_md"/>
+<!--                    <button name="set_status_consultant" type="object" states="send_to_md" string="Send to Consultant" class="oe_highlight" groups="fastra_project_budget.group_project_budget_caf_consultant"/>-->
+                    <button name="set_status_finance" type="object" states="send_to_md" string="Send to Finance" class="oe_highlight" groups="fastra_project_budget.group_project_budget_caf_finance"/>
+                    <button name="set_status_approve" type="object" states="send_to_finance" string="Approve" class="oe_highlight" groups="fastra_project_budget.group_project_budget_caf_finance"/>
+
+                    <button name="action_button_project_budget_reject" type="object" string="Reject" attrs="{'invisible': ['|','|',('state', '=', 'reject'),('state', '=', 'approve'),('state', '=', 'draft')]}" id="reject_level_hod" />
+
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,send_to_head_of_department,send_to_md,send_to_finance,approve"/>
+                </header>
+                <sheet>
+                	<div class="oe_button_box">
+		                <button name="action_view_receipts" type="object" class="oe_stat_button" icon="fa-bars" attrs="{'invisible': [('state', '!=', 'approved')]}" string="Receipts">
+		                </button>
+		            </div>
+                    <group colspan="4">
+                        <group colspan="2" col="4">
+                            <field string="Customer" name="partner_id" context="{'search_default_customer':1, 'show_address': 1, 'default_is_company': True, 'show_vat': True}" options="{&quot;always_reload&quot;: True, &quot;no_quick_create&quot;: True}" required="1" />
+                            <field name="project_detail_id"/>
+                            <field name="po_number" />
+                        </group>
+                        <group colspan="2" col="4">
+                        	<field name="amount_total" string="Target Implementation Cost" readonly="1" force_save="1"/>
+                        	<field name="actual_implementation_cost"/>
+                    		<field name="po_number_id" string="Client PO Value" domain="[('state','=','approved')]"/>
+                    		<field name="profit_loss" readonly="1" force_save="1"/>
+							<field name="po_amount" readonly="1" force_save="1"/>
+                            <label for="margin" />
+                            <div>
+                                <field name="margin" readonly="1" force_save="1"/>
+                                <span>%</span>
+                            </div>
+                    	</group>
+                        <group colspan="2" col="4">
+                            <field name="date_invoice" options="{'datepicker': {'warn_future': true}}" />
+                            <field name="user_id" groups="base.group_user" readonly="1" />
+                            <label for="currency_id" />
+                            <div>
+                              <field name="currency_id" options="{'no_create': True, 'no_open': True}" class="oe_inline" />
+                            </div>
+                        </group>
+                    </group>
+
+                    <separator string="Project Details" colspan="4" />
+                    <group>
+                        <group>
+                            <field name="project_manager"/>
+                            <field name="project_description"/>
+                            <field name="project_duration"/>
+                            <field name="project_account_code"/>
+
+                        </group>
+                        <group>
+                            <field name="request_date"/>
+                            <field name="site"/>
+                            <field name="project_location"/>
+
+                        </group>
+                        <separator string="File Attachment" colspan="4" />
+                        <field name="file_attachment"/>
+                        <field name="file_name" invisible="1"/>
+                    </group>
+
+                    <separator string="Project Analysis" colspan="4" />
+
+                    <notebook colspan="4">
+                        <page string="Project Budget">
+                            <field name="invoice_line_ids" nolabel="1" widget="section_and_note_one2many" mode="tree,kanban">
+                                <tree string="Analysis lines" editable="bottom">
+                                    <control>
+                                    <create string="Add a line" />
+                                    <create string="Add a section" context="{'default_display_type': 'line_section'}" />
+                                    </control>
+                                    <field name="state" invisible="1"/>
+                                    <field name="job_line_ids" invisible="1"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="job_id" string="Scope"/>
+                                    <field name="name" />
+                                    <field name="quantity" />
+                                    <field name="account_id" attrs="{'column_invisible': [('parent.state', 'not in', ['approved'])]}"/>
+                                    <field name="amount" />
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="amount_total" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </page>
+                        <page string="Purchase Lines" name="purchase_line">
+                        	<field name="purchase_order_line_ids" nolable="1" readonly="1" force_save="1">
+
+                        	</field>
+                        	<group class="oe_subtotal_footer oe_right">
+                                <field name="purchase_total" class="oe_subtotal_footer_separator"/>
+                            </group>
+						</page>
+						<page string="Issued Amount to Custodian Lines" name="petty_cash_line_custodian" invisible="1">
+                        	<field name="petty_cash_line_custodian_ids" nolable="1" readonly="1" force_save="1">
+                        		<tree string="Petty Cash Lines Custodian">
+                        			<field name="date"/>
+                        			<field name="amount"/>
+                        			<field name="journal_entry"/>
+                        			<field name="state"/>
+                        		</tree>
+                        	</field>
+                        	<group class="oe_subtotal_footer oe_right">
+                                <field name="petty_cash_line_custodian_total" class="oe_subtotal_footer_separator"/>
+                            </group>
+						</page>
+						<page string="Petty Cash Lines" name="petty_cash_line">
+                        	<field name="petty_cash_line_ids" nolable="1" readonly="1" force_save="1">
+                        		<tree string="Petty Cash Lines">
+                        			<field name="name" />
+                        			<field name="date" />
+                        			<field name="amount"/>
+                        		</tree>
+                        	</field>
+                        	<group class="oe_subtotal_footer oe_right">
+                                <field name="petty_cash_line_total" readonly="1" class="oe_subtotal_footer_separator"/>
+                            </group>
+						</page>
+
+                        <page string="Project Fund">
+                            <group>
+                                 <field name="disbursement_project_fund_ids" readonly="1" force_save="1" nolabel="1">
+                                     <tree editable="bottom">
+                                        <field name="job"/>
+                                        <field name="description"/>
+                                        <field name="quantity"/>
+                                        <field name="amount"/>
+                                        <field name="fund_amount"/>
+                                        <field name="account_debit"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                        <field name="account_credit"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                        <field name="journal_id"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                        <field name="state"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                     </tree>
+                                 </field>
+                            </group>
+
+                        </page>
+
+                        <page string="Retirement Amount">
+                            <group>
+                                <field name="disbursement_retirement_amount_ids" readonly="1" force_save="1" nolabel="1">
+                                     <tree>
+                                        <field name="retirement_description"/>
+                                        <field name="retirement_date"/>
+                                        <field name="account_debit"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                        <field name="account_credit"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                        <field name="journal_id"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                        <field name="fund_amount"/>
+                                        <field name="state"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                     </tree>
+                                 </field>
+                            </group>
+                        </page>
+						<page string="Other Payments" name="other_payments">
+                        	<field name="account_voucher_ids" nolable="1" readonly="1" force_save="1"/>
+						</page>
+
+
+                    </notebook> 
+                    <separator string="Rejection Reason" states="reject"/>
+                    <field name = "project_details" states="reject"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_project_budget_list">
+        <field name="name">view.project.budget.list</field>
+        <field name="model">fastra.project.analysis</field>
+        <field name="arch" type="xml">
+            <tree string="Project Budget Analysis">
+            <field name="project_detail_id" />
+            <field name="po_number"/>
+            <field name="amount" />
+            <field name="amount_total"/>
+            <field name="profit_loss"/>
+            <field name="create_uid" />
+            <field name="create_date" />
+            <field name="state" />
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_fastra_project_budget_filter" model="ir.ui.view">
+        <field name="name">view.fastra.project.budget.filter</field>
+        <field name="model">fastra.project.analysis</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search Project Budget">
+                <field name="project_detail_id"/>
+                <field name="po_number"/>
+                <field name="partner_id" operator="child_of"/>
+                <field name="user_id"/>
+                <filter string="My Budget" domain="[('user_id','=',uid)]" name="my_project_budget_filter"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="State" name="state" domain="[]" context="{'group_by':'state'}"/>
+                    <filter name="customer" string="Customer" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter name="partner" string="Created By" domain="[]" context="{'group_by':'user_id'}"/>
+                    <filter string="Date" name="budget_month" domain="[]" context="{'group_by':'date_invoice'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+    <record id="action_project_analysis_extends" model="ir.actions.act_window">
+        <field name="name">CAF</field>
+        <field name="res_model">fastra.project.analysis</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_fastra_project_budget_filter"/>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_project_budget_list')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_fastra_project_budget_form')})]"/>
+    </record>
+
+    <menuitem name="Project Budget"
+              id="menu_action_project_budget_root"
+              web_icon="fastra_project_budget,static/description/icon.jpeg"
+              sequence="90" />
+
+    <menuitem name="CAF"
+              id="menu_action_project_budget"
+              action="action_project_analysis_extends"
+              parent="fastra_project_budget.menu_action_project_budget_root"
+              web_icon="fastra_project_budget,static/description/icon.jpeg"
+              sequence="30" />
+
+    <!-- Project Budget Line    -->
+
+    <record model="ir.ui.view" id="view_project_budget_line_list">
+        <field name="name">Project Analysis Line Tree</field>
+        <field name="model">project.analysis.line</field>
+        <field name="arch" type="xml">
+            <tree string="Project Analysis" create="0" edit="0" delete="0">
+                <field name="job_id"/>
+                <field name="name"/>
+                <field name="account_id"/>
+                <field name="amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_project_budget_line_analysis_pivot">
+        <field name="name">view.project.budget.line.analysis.pivot</field>
+        <field name="model">project.analysis.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Project Budget Line Pivot">
+                <field name="amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_fastra_project_budget_line_filter" model="ir.ui.view">
+        <field name="name">view.fastra.project.budget.line.filter</field>
+        <field name="model">project.analysis.line</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search Project Budget">
+                <field name="job_id"/>
+                <field name="name"/>
+                <field name="account_id"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="State" name="state" domain="[]" context="{'group_by':'state'}"/>
+                    <filter name="job" string="Job" domain="[]" context="{'group_by':'job_id'}"/>
+                    <filter name="account" string="Account" domain="[]" context="{'group_by':'account_id'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+    <record id="action_project_budget_line_analysis_extends" model="ir.actions.act_window">
+        <field name="name">Project Budget Line</field>
+        <field name="res_model">project.analysis.line</field>
+        <field name="view_mode">tree,pivot</field>
+        <field name="search_view_id" ref="view_fastra_project_budget_line_filter"/>
+        <field name="view_id" ref="fastra_project_budget.view_project_budget_line_list"/>
+        <field name="domain">[('state', '=', 'approved')]</field>
+    </record>
+
+    <menuitem name="Project Budget Line"
+              id="menu_action_project_budget_line"
+              parent="account.menu_finance"
+              action="action_project_budget_line_analysis_extends"
+              sequence="100" />
+
+    <!--<menuitem name="Project Budget Line"
+              id="menu_action_project_budget_line_dashboard"
+              parent="fastra_project_budget.menu_action_project_budget_root"
+              action="action_project_budget_line_analysis_extends"
+              sequence="5" />-->
+    
+
+     <record model="ir.ui.view" id="account_voucher.view_voucher_tree_purchase">
+            <field name="name">account.voucher.tree.supplier</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Voucher Entries" create="1" edit="1">
+                    <field name="date"/>
+                    <field name="number"/>
+                    <field name="reference"/>
+                    <field name="partner_id" string="Vendor"/>
+                    <field name="voucher_type" invisible="context.get('visible', True)"/>
+                    <field name="amount" sum="Total Amount"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+              	
+     <record id="account_voucher.action_purchase_receipt_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="account_voucher.view_voucher_tree_purchase"/>
+        <field name="act_window_id" ref="account_voucher.action_purchase_receipt"/>
+    </record>
+
+    <!-- Payment Menus  -->
+  <!--  <menuitem name="Project Payment" id="menu_project_payment" parent="fastra_project_budget.menu_action_project_budget_root" sequence="10"/>
+    <menuitem name="Customer Payment" action="account.action_invoice_tree1" id="menu_project_payment_invoice" parent="menu_project_payment" sequence="1"/>
+    <menuitem name="Supplier Payment" action="account.action_invoice_tree2" id="menu_project_payment_bill" parent="menu_project_payment" sequence="2"/> -->
+</odoo>

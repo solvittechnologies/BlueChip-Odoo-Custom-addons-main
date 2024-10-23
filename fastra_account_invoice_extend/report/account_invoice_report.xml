@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="report_invoice_document_inherit_fastra_change" inherit_id="account.report_invoice_document">
+<!--            <xpath expr="//t[@t-set='address']" position="before">-->
+<!--                <div t-if="o.company_id.vat"><t t-esc="'BLUECHIP VAT NO'"/>:-->
+<!--                    <span t-field="o.company_id.vat"/>-->
+<!--                </div>-->
+<!--                <div t-if="o.company_id.tin_no"><t t-esc="'BLUECHIP TIN NO'"/>:-->
+<!--                    <span t-field="o.company_id.tin_no"/>-->
+<!--                </div>-->
+<!--            </xpath>-->
+            <xpath expr="//div[@id='total']/div/table" position="inside">
+                <tr class="border-black o_total">
+                    <td>
+                        <strong>Amount in word</strong>
+                    </td>
+                    <td class="text-right">
+                        <span t-field="o.total_amount_in_words_invoice"/>
+                    </td>
+                </tr>
+            </xpath>
+            <xpath expr="//p[@t-if='o.reference']" position="after">
+                <strong>Bank Info</strong>
+                <strong>
+                    <div t-if="o.company_id.sort_code"><t t-esc="'Sort Code'"/>:
+                        <span t-field="o.company_id.sort_code"/>
+                    </div>
+                </strong>
+                <strong>
+                    <div t-if="o.company_id.bank_name"><t t-esc="'Bank Name'"/>:
+                        <span t-field="o.company_id.bank_name"/>
+                    </div>
+                </strong>
+                <strong>
+                    <div t-if="o.company_id.bank_address"><t t-esc="'Bank Address'"/>:
+                        <span t-field="o.company_id.bank_address"/>
+                    </div>
+                </strong>
+                <strong>
+                    <div t-if="o.company_id.account_name"><t t-esc="'Account Name'"/>:
+                        <span t-field="o.company_id.account_name"/>
+                    </div>
+                </strong>
+                <strong>
+                    <div t-if="o.company_id.account_no"><t t-esc="'Account Number'"/>:
+                        <span t-field="o.company_id.account_no"/>
+                    </div>
+                </strong>
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <strong>Signechar</strong>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img t-if="o.signechar_1" t-att-src="image_data_uri(o.signechar_1)"
+                                     style="max-height: 75px;"
+                                     alt="Logo"/>
+                            </td>
+                            <td>
+                                <img t-if="o.signechar_2" t-att-src="image_data_uri(o.signechar_2)"
+                                     style="max-height: 75px;"
+                                     alt="Logo"/>
+                            </td>
+                            <td>
+                                <img t-if="o.signechar_3" t-att-src="image_data_uri(o.signechar_3)"
+                                     style="max-height: 75px;"
+                                     alt="Logo"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </xpath>
+
+
+        </template>
+
+    </data>
+</odoo>

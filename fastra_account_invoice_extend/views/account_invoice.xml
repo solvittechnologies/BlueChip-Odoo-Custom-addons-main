@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <record id="view_account_invoice_for_add_amount_in_word" model="ir.ui.view">
+            <field name="name">view.account.invoice.add.amount.in.word</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="total_amount_in_words_invoice"/>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']" position="after">
+                    <group col="3" string="Signechar">
+                        <group>
+                            <field name="signechar_1"/>
+                        </group>
+                        <group>
+                            <field name="signechar_2"/>
+                        </group>
+                        <group>
+                            <field name="signechar_3"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

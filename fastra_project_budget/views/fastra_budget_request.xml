@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- form view --> 
+		<record id="view_fastra_project_budget_request_form" model="ir.ui.view">
+        <field name="name">view.fastra.project.budget.request.form</field>
+        <field name="model">fastra.budget.request</field>
+        <field name="arch" type="xml">
+            <form name="Project Budget Request">
+                <header>
+                    <button name="action_button_send_for_approval" type="object" states="draft" string="Send for Approval" class="oe_highlight" id="send_for_approval" groups="fastra_project_budget.group_project_budget_request_user"/>
+                    <button name="action_button_project_budget_approve" type="object" states="to_approval" string="Approve" class="oe_highlight" groups="fastra_project_budget.group_project_budget_request_md"/>
+                    <button name="action_button_project_budget_reject" type="object" states="to_approval" string="Reject" id="reject_level_hod" groups="fastra_project_budget.group_project_budget_request_md"/>
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,send_for_approval"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field string="Customer" name="partner_id" context="{'search_default_customer':1, 'show_address': 1, 'default_is_company': True, 'show_vat': True}" options="{&quot;always_reload&quot;: True, &quot;no_quick_create&quot;: True}" required="1"/>
+                            <field name="project_detail_id"/>
+                            <field name="project_manager"/>
+                            <field name="project_description"/>
+                            <field name="project_duration"/>
+                            <field name="project_account_code"/>
+
+                        </group>
+                        <group>
+                            <field name="request_date"/>
+                            <field name="site"/>
+                            <field name="project_location" />
+							<field name = "po_number_id"/>                            
+                            <field name="po_amount"/>                            
+                        </group>
+                    </group>
+                   <separator string="Project Narration"/>
+                    <field name = "project_narration"/>
+					<field name = "file_attachment"/>                    
+                   <separator string="Rejection Reason" states="reject"/>
+                    <field name = "project_details" states="reject"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+    <!-- list view -->
+    <record model="ir.ui.view" id="view_project_budget_request_list">
+        <field name="name">view.project.budget.request.list</field>
+        <field name="model">fastra.budget.request</field>
+        <field name="arch" type="xml">
+            <tree string="Project Budget Request">
+            <field name="project_manager"/>
+                <field name="partner_id"/>
+                <field name="project_description"/>
+                <field name="project_duration"/>
+                <field name="project_account_code"/>
+				<field name="request_date"/>
+                <field name="site"/>
+                <field name="project_location"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    
+    <!-- action -->
+	<record id="action_project_budget_request" model="ir.actions.act_window">
+        <field name="name">Project Initiation Request</field>
+        <field name="res_model">fastra.budget.request</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,kanban,pivot,graph,activity</field>
+        <field name="view_id" ref="view_project_budget_request_list"/>
+    </record> 
+    
+    <menuitem name="Project Initiation Request"
+              id="menu_action_project_budget_request" 
+              parent="fastra_project_budget.menu_action_project_budget_root"
+              sequence="20" />
+    
+  	<menuitem name="Project Initiation Request "
+              id="menu_action_project_budget_request_submenu"
+              action="action_project_budget_request"
+              parent="fastra_project_budget.menu_action_project_budget_request"
+              sequence="1" />
+       
+	</data>
+</odoo>

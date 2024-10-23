@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="line_hr_payslip_custom_account_line_btn" model="ir.ui.view">
+        <field name="name">hr.payslip.custom.account.line.report.btn</field>
+        <field name="model">fastra.payroll</field>
+        <field name="inherit_id" ref="fastra_hr_customize.payroll_form_view" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='fastra_hr_payroll_line_ids']/tree//field[@name='life_assurance_plan']" position="after">
+                <button string="Print" name="launch_wizard" type="object" class="oe_highlight" />
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="ReportHRPayslipCustomLibeReport_wizard" model="ir.ui.view">
+        <field name="name">Salary Payroll wizard</field>
+        <field name="model">report.fastra_payslip_print.report.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Salary Payroll wizard">
+                <group>
+                    <group>
+                        <field name="basic_salary"/>
+                        <field name="housing_allowance"/>
+                        <field name="transport_allowance"/>
+                        <field name="meal_allowance"/>
+                        <field name="dressing"/>
+                        <field name="employer_pension"/>
+                    </group>
+                    <group>
+                        <field name="paye"/>
+                        <field name="medical_plan"/>
+                        <field name="leave_allowance"/>
+                        <field name="gratutity_plan"/>
+                        <field name="monthly_gross"/>
+                        <field name="life_assurance_plan"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="get_report" string="Get Report" type="object" class="oe_highlight" />
+                    <button string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

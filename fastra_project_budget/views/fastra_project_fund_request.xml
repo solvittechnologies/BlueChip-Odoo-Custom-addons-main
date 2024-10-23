@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- form view -->
+        <record id="view_fastra_project_fund_request_form" model="ir.ui.view">
+            <field name="name">view.fastra.project.fund.request.form</field>
+            <field name="model">fastra.project.fund.request</field>
+            <field name="arch" type="xml">
+                <form name="Project Fund Request">
+                    <header>
+                        <button name="action_button_send_for_approval" type="object" states="draft"
+                                string="Send for Approval" class="oe_highlight" id="send_for_approval"
+                                groups="fastra_project_budget.group_project_fund_request_user"/>
+                        <button name="action_button_project_budget_approve" type="object" states="to_approval"
+                                string="Approve" class="oe_highlight"
+                                groups="fastra_project_budget.group_project_fund_request_manager"/>
+                        <button name="action_button_project_budget_reject" type="object" states="to_approval"
+                                string="Reject" id="reject_level_hod"
+                                groups="fastra_project_budget.group_project_fund_request_manager"/>
+                        <button name="action_button_project_budget_start" type="object" states="approved" string="Start"
+                                class="oe_highlight" groups="fastra_project_budget.group_project_fund_request_manager"/>
+                        <button name="action_button_project_budget_complete" type="object" states="start"
+                                string="Complete" class="oe_highlight"
+                                groups="fastra_project_budget.group_project_fund_request_manager"/>
+                        <field name="state" widget="statusbar" nolabel="1" statusbar_visible="draft,start,completed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="button_journal_entries"
+                                    string="Journal Entries" type="object"
+                                    attrs="{'invisible':[('move_ids','=',[])]}" icon="fa-bars"/>
+                            <field name="move_ids" invisible="1"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project_manager"/>
+                                <field name="project_description"/>
+                                <field name="project_duration"/>
+                                <field name="project_account_code"/>
+                                <field name="approved_fund_allocated" readonly="1" force_save="1"/>
+                                <field name="approved_retirement_amount" readonly="1" force_save="1"/>
+                                <field name="caf_approved_amount" readonly="1" force_save="1"/>
+                                <field name="approved_amount_balance" readonly="1" force_save="1"/>
+                                <field name="profit_loss" readonly="1" force_save="1"/>
+<!--                                <field name="is_edit_fund_line" invisible="1"/>-->
+                            </group>
+                            <group>
+                                <field name="request_date"/>
+                                <field name="site"/>
+                                <field name="project_location"/>
+                                <field name="po_number_id"/>
+                                <field name="po_amount"/>
+                                <field name="project_number" domain="[('state', '=', 'approved')]"/>
+                                <field name="project_detail_id"/>
+                                <field name="caf_id" domain="[('state', '=', 'approve')]"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Project Fund">
+<!--                                <field name="project_fund_ids"-->
+<!--                                       attrs="{'readonly': [('is_edit_fund_line', '=', False)]}">-->
+                                <field name="project_fund_ids">
+                                    <tree editable="bottom">
+                                        <field name="job"/>
+                                        <field name="description"/>
+                                        <field name="quantity"/>
+                                        <field name="amount"/>
+                                        <field name="fund_amount"/>
+                                        <field name="account_debit"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                        <field name="account_credit"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                        <field name="journal_id"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                        <field name="state"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Retirement Amount">
+                                <field name="retirement_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="retirement_description"/>
+                                        <field name="retirement_date"/>
+                                        <field name="account_debit"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                        <field name="account_credit"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                        <field name="journal_id"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                        <field name="fund_amount"/>
+                                        <field name="state"
+                                               groups="fastra_project_budget.group_project_fund_request_manager"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <separator string="Rejection Reason" states="reject"/>
+                        <field name="project_details" states="reject" readonly="1"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- list view -->
+        <record model="ir.ui.view" id="view_fastra_project_fund_request_list">
+            <field name="name">view.fastra.project.fund.request.list</field>
+            <field name="model">fastra.project.fund.request</field>
+            <field name="arch" type="xml">
+                <tree string="Project Fund Request">
+                    <field name="project_manager"/>
+                    <field name="project_description"/>
+                    <field name="project_duration"/>
+                    <field name="project_account_code"/>
+                    <field name="approved_fund_allocated" readonly="1" force_save="1"/>
+                    <field name="approved_retirement_amount" readonly="1" force_save="1"/>
+                    <field name="caf_approved_amount" readonly="1" force_save="1"/>
+                    <field name="approved_amount_balance" readonly="1" force_save="1"/>
+                    <field name="profit_loss"/>
+                    <field name="request_date"/>
+                    <field name="site"/>
+                    <field name="project_location"/>
+                    <field name="po_number_id"/>
+                    <field name="po_amount"/>
+                    <field name="project_number"/>
+                    <field name="project_detail_id"/>
+                    <field name="caf_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- action -->
+        <record id="action_project_fund_request" model="ir.actions.act_window">
+            <field name="name">Disbursement</field>
+            <field name="res_model">fastra.project.fund.request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban,pivot,graph,activity</field>
+        </record>
+
+        <menuitem name="Disbursement"
+                  id="menu_project_fund_request"
+                  action="action_project_fund_request"
+                  parent="fastra_project_budget.menu_action_project_budget_root"
+                  sequence="40"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+        <record id="staff_induction_for_master_data_list_view" model="ir.ui.view">
+            <field name="name">staff.induction.for.master.data.list.view</field>
+            <field name="model">staff.induction.master.data</field>
+            <field name="arch" type="xml">
+                <tree string="Staff Induction Master Data" editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="staff_induction_for_master_data_action" model="ir.actions.act_window">
+            <field name="name">Staff Induction Form</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">staff.induction.master.data</field>
+            <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        </record>
+
+
+        <menuitem id="staff_induction_form_master_data"
+                  parent="menu_master_data_root"
+                  action="staff_induction_for_master_data_action"
+                  sequence="30"
+                  name="Staff Induction And Answer Sheet"/>
+    </data>
+</odoo>

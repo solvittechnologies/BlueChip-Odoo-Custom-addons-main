@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_invoice_form_inherit_delivery" model="ir.ui.view">
+            <field name="name">view.account.invoice.form.inherit.delivery</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_tax']" position="after">
+                    <field name="delivery_cost"/>
+                </xpath>
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='discount']" position="after">
+                    <field name="discount_type"/>
+                    <field name="discount_rate" attrs="{'invisible':[('discount_type', '=', 'amount')]}"/>
+                    <field name="discount_fixed" attrs="{'invisible':[('discount_type', '=', 'percentage')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <template id="invoice_report_inherit_delivery" inherit_id="account.report_invoice_document">
+            <xpath expr="//tr[@class='border-black o_total']" position="before">
+                <tr style="">
+                    <td><strong>Delivery</strong></td>
+                    <td class="text-right">
+                        <span t-field="o.delivery_cost"/>
+                    </td>
+                </tr>
+            </xpath>
+        </template>
+    </data>
+</odoo>

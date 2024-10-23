@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<odoo>
+	<record model="ir.ui.view" id="master_salary_computation_list">
+		<field name="name">salary.computation.list</field>
+		<field name="model">fastra.master.salary.computation</field>
+		<field name="arch" type="xml">
+			<tree editable="bottom">
+				<field name="job_group_id"/>
+				<field name="step_id"/>
+				<field name="basic_salary" sum="Total"/>
+				<field name="housing_allowance" sum="Total"/>
+				<field name="transport_allowance" sum="Total"/>
+				<field name="meal_allowance" sum="Total"/>
+				<field name="dressing" sum="Total"/>
+				<field name="life_assurance_plan" sum="Total"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="action_master_data_salary_computation" model="ir.actions.act_window">
+        <field name="name">Salary Computation</field>
+        <field name="res_model">fastra.master.salary.computation</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Salary Computation"
+              id="menu_master_salary_computation"
+              parent="fastra_hr_customize.menu_master_data_root"
+              action="action_master_data_salary_computation" />
+</odoo>

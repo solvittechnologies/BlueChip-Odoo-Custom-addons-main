@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+
+    <template id="external_layout_boxed_inherit" inherit_id="web.external_layout_boxed">
+        <xpath expr="//div[@class='o_boxed_header']" position="replace">
+            <div class="o_boxed_header">
+                <div class="row ">
+                    <div class="col-6">
+                        <!--<img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>-->
+                    </div>
+
+                    <div class="col-6 text-right ">
+
+
+                        <h4 class="mt0" t-field="company.report_header"/>
+                        <div>
+                            <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;"
+                                 alt="Logo"/>
+
+                        </div>
+                        <div name="company_address" class="mb4">
+                            <span class="company_address" t-field="company.partner_id"
+                                  t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
+                            <div t-if="o.company_id.vat"><t t-esc="'BLUECHIP VAT NO'"/>:
+                                <span t-field="o.company_id.vat"/>
+                            </div>
+                            <div t-if="o.company_id.tin_no"><t t-esc="'BLUECHIP TIN NO'"/>:
+                                <span t-field="o.company_id.tin_no"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+    <template id="external_layout_boxed_for_invoice">
+
+        <div class="o_boxed_header">
+            <div class="row ">
+                <div class="col-6">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                </div>
+
+                <div class="col-6 text-right ">
+
+
+                    <h4 class="mt0" t-field="company.report_header"/>
+                    <div>
+                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 50px;"
+                             alt="Logo"/>
+
+                    </div>
+                    <div name="company_address" class="mb4">
+                        <span class="company_address" t-field="company.partner_id"
+                              t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+</odoo>

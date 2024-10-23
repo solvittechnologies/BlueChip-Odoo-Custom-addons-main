@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_purchase_request_petty_cash,Access.purchase.request.petty.cash,model_purchase_request_kay_petty_cash,base.group_user,1,1,1,1
+access_petty_cash_breakdown,Access.petty.cash.breakdown,model_petty_cash_breakdown,,1,1,1,1

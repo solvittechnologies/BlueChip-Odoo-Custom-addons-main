@@ -1,0 +1,68 @@
+<odoo>
+    <data>
+        <record id="hr_leave_request_view_form" model="ir.ui.view">
+            <field name="name">hr.leave.request.view.form</field>
+            <field name="model">fastra.leave.request</field>
+            <field name="arch" type="xml">
+                <form string="Leave Request Form">
+                    <sheet>
+                        <header>
+                            <field name="state" widget="statusbar" nolabel="1"/>
+                            <button name="send_supervisor" string="Send to Supervisor" attrs="{'invisible':[('state','!=', 'draft')]}" class="oe_highlight" type="object" />
+                            <button name="send_hr" string="Send to HR" attrs="{'invisible':[('state','!=', 'send_supervisor')]}" class="oe_highlight" type="object" groups="fastra_hr_customize.group_leave_request_supervisor"/>
+                            <button name="approve" string="Approve" attrs="{'invisible':[('state','!=', 'send_to_hr')]}" class="oe_highlight" type="object" groups="fastra_hr_customize.group_leave_request_hr"/>
+                            <button name="reject" string="Reject" attrs="{'invisible':[('state','=', 'reject')]}" class="oe_highlight" type="object"/>
+                            <button name="set_draft" string="Re-set To Draft" attrs="{'invisible':[('state','!=', 'reject')]}" class="oe_highlight" type="object"/>
+                        </header>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="department_id"/>
+                                <field name="manager_reporter_id"/>
+                                <field name="type_of_absence"/>
+                                <field name="other_reason"/>
+                                <label for="date_from" string="Dates of Absence"/>
+                                <div class="o_row">
+                                    <field name="date_from"/>
+                                    <span><b>TO</b></span>
+                                    <field name="date_to"/>
+                                </div>
+                                <field name="absence_reason"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_leave_request_view_tree" model="ir.ui.view">
+            <field name="name">hr.leave.request.view.tree</field>
+            <field name="model">fastra.leave.request</field>
+            <field name="arch" type="xml">
+                <tree string="Leave Request Form">
+                        <field name="employee_id"/>
+                        <field name="department_id"/>
+                        <field name="manager_reporter_id"/>
+                        <field name="type_of_absence"/>
+                        <field name="other_reason"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="absence_reason"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_leave_request" model="ir.actions.act_window">
+            <field name="name">Leave Request Form</field>
+            <field name="res_model">fastra.leave.request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_leave_request_root"
+                  parent="hr_menus.hr_menus"
+                  action="action_leave_request"
+                  sequence="90"
+                  name="Leave Request"/>
+    </data>
+</odoo>

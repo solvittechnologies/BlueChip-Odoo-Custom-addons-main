@@ -1,0 +1,9 @@
+<data>
+   <record id="seq_project_budget_po_number" model="ir.sequence">
+       <field name="name">CAF NO</field>
+       <field name="code">project.budget.caf.no</field>
+       <field name="prefix">CAF</field>
+       <field name="padding">4</field>
+       <field name="po_number" eval="False"/>
+   </record>
+</data>

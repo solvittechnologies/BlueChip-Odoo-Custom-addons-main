@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+        <record id="employee_checklist_for_staff_list_view" model="ir.ui.view">
+            <field name="name">employee.checklist.for.staff.list.view</field>
+            <field name="model">employee.checklist.for.staff</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Checklist For Staff File" editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="employee_checklist_for_staff_action" model="ir.actions.act_window">
+            <field name="name">Employee Checklist For Staff File</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.checklist.for.staff</field>
+            <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem id="menu_master_data_root" parent="hr_menus.hr_menus" sequence="100" name="Master Data"/>
+        <menuitem id="employee_check_list_for_staff"
+                  parent="menu_master_data_root"
+                  action="employee_checklist_for_staff_action"
+                  sequence="10"
+                  name="Employee check list for staff"/>
+    </data>
+</odoo>

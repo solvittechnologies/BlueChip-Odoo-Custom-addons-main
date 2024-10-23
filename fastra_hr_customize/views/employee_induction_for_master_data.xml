@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="employee_induction_for_master_data_list_view" model="ir.ui.view">
+            <field name="name">employee.induction.for.master.data.list.view</field>
+            <field name="model">employee.induction.master.data</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Induction Master Data" editable="bottom">
+                    <field name="name"/>
+                    <field name="action"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="employee_induction_for_master_data_action" model="ir.actions.act_window">
+            <field name="name">Employee Induction Form</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.induction.master.data</field>
+            <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        </record>
+
+
+        <menuitem id="employee_induction_form_master_data"
+                  parent="menu_master_data_root"
+                  action="employee_induction_for_master_data_action"
+                  sequence="20"
+                  name="Employee Induction Form"/>
+    </data>
+</odoo>

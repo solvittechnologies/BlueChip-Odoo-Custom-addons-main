@@ -1,0 +1,66 @@
+<odoo>
+    <data>
+        <record id="interview_rating_guide_form_view" model="ir.ui.view">
+            <field name="name">interview.rating.guide.form.view</field>
+            <field name="model">interview.rating.guide</field>
+            <field name="arch" type="xml">
+                <form string="Interview Rating Form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                                <field name="applicant"/>
+                            </group>
+                            <group>
+                                <field name="position_id"/>
+                                <field name="interviewer_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Line">
+                                <field name="line_ids" nolabel="1">
+                                    <tree string="Line" editable="bottom">
+                                        <field name="name"/>
+                                        <field name="is_excellent"/>
+                                        <field name="is_above_average"/>
+                                        <field name="is_average"/>
+                                        <field name="is_marginal"/>
+                                    </tree>
+                                </field>
+                                <label for="comment"/>
+                                <field name="comment" placeholder="Comment"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="interview_rating_guide_list_view" model="ir.ui.view">
+            <field name="name">interview.rating.guide.list.view</field>
+            <field name="model">interview.rating.guide</field>
+            <field name="arch" type="xml">
+                <tree string="Interview Rating Tree">
+                    <field name="date"/>
+                    <field name="applicant"/>
+                    <field name="position_id"/>
+                    <field name="interviewer_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="interview_rating_guide_action" model="ir.actions.act_window">
+            <field name="name">Interview Rating Guide</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">interview.rating.guide</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="interview_rating_menu"
+                  parent="hr_menus.hr_menus"
+                  action="interview_rating_guide_action"
+                  sequence="50"
+                  name="Interview Rating Guide"/>
+    </data>
+</odoo>

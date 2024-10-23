@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+		<!-- fastra hr-->
+
+		<record model="ir.module.category" id="module_fastra_hr_security">
+	        <field name="name">Fastra HR</field>
+	        <field name="sequence">10</field>
+	    </record>
+
+		<record id="group_fastra_hr_hr" model="res.groups">
+	        <field name="name">HR</field>
+	        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+	        <field name="category_id" ref="fastra_hr_customize.module_fastra_hr_security"/>
+	    </record>
+
+		<record id="group_fastra_hr_md" model="res.groups">
+	        <field name="name">MD</field>
+	        <field name="implied_ids" eval="[(4, ref('fastra_hr_customize.group_fastra_hr_hr'))]"/>
+	        <field name="category_id" ref="fastra_hr_customize.module_fastra_hr_security"/>
+	    </record>
+
+		<!-- Leave Request User Groups-->
+
+		<record model="ir.module.category" id="module_fastra_leave_request_groups">
+	        <field name="name">Leave Request</field>
+	        <field name="sequence">10</field>
+	    </record>
+
+		<record id="group_leave_request_supervisor" model="res.groups">
+	        <field name="name">Supervisor</field>
+	        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+	        <field name="category_id" ref="fastra_hr_customize.module_fastra_leave_request_groups"/>
+	    </record>
+
+		<record id="group_leave_request_hr" model="res.groups">
+	        <field name="name">HR</field>
+	        <field name="implied_ids" eval="[(4, ref('fastra_hr_customize.group_leave_request_supervisor'))]"/>
+	        <field name="category_id" ref="fastra_hr_customize.module_fastra_leave_request_groups"/>
+	    </record>
+    </data>
+</odoo>

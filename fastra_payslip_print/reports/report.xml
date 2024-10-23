@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="paperformat_hr_payslip_custom_report" model="report.paperformat">
+        <field name="name">hr payslip custom report</field>
+        <field name="default" eval="False" />
+        <field name="format">A4</field>
+        <field name="page_width">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">28</field>
+        <field name="margin_right">7</field>
+        <field name="margin_left">7</field>
+        <field name="header_line" eval="True" />
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+
+    <report id="hr_payslip_custom_report"
+            model="fastra.hr.payroll.line"
+            string="Employee Payslip"
+            report_type="qweb-pdf"
+            name="fastra_payslip_print.hr_payslip_custom_report_view"
+            paperformat="fastra_payslip_print.paperformat_hr_payslip_custom_report"
+            menu="False"
+            print_report_name="'payslip report - %s' % object.employe_id.name"/>
+
+
+    <template id="hr_payslip_custom_report_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout_boxed">
+
+                <main>
+                    <t t-set="o" t-value="o.with_context(lang=lang)" />
+                    <div class="page">
+                        <div style="padding-top:40px">
+                            <h2>Pay Slip</h2>
+                            <p>Salary Slip of <span>
+                                    <t t-esc="docs.employee_id.name" /></span></p>
+                            <p>
+                                <t t-esc="company.name" />
+                            </p>
+                        </div>
+                        <table class="table table-sm o_main_table">
+                            <tr>
+                                <th>Name</th>
+                                <td>
+                                    <t t-esc="docs.employee_id.name" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Month</th>
+                                <td>
+                                    <t t-esc="docs.fastra_payroll_id.month" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Address</th>
+                                <td>
+                                    <t t-esc="docs.employee_id.work_location " />
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>
+                                    <t t-esc="docs.employee_id.work_email" />
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <th>Period</th>
+                                <td>
+                                    <t t-esc="docs.fastra_payroll_id.date_from"/><span> - </span><t t-esc="docs.fastra_payroll_id.date_to"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <h2>Details by Salary Rule Category</h2>
+
+                        <table class="table table-sm o_main_table">
+                            <tr>
+                                <th>Code</th>
+                                <th>SALARY RULE CATEGORY</th>
+                                <th>TOTAL</th>
+                            </tr>
+
+                            <t t-if="getwizardValue.basic_salary">
+
+                                <tr>
+                                    <td>BS</td>
+                                    <td>Basic Salary</td>
+                                    <td>
+                                        <t t-esc="docs.basic_salary"
+                                            t-options='{"widget": "monetary", "display_currency": currency}' />
+                                    </td>
+                                </tr>
+                            </t>
+
+                            <t t-if="getwizardValue.housing_allowance">
+
+                                <tr>
+                                    <td>HAW</td>
+                                    <td>Housing</td>
+                                    <td>
+                                        <t t-esc="docs.housing_allowance"
+                                            t-options='{"widget": "monetary", "display_currency": currency}' />
+                                    </td>
+                                </tr>
+                            </t>
+
+                            <t t-if="getwizardValue.transport_allowance">
+
+                                <tr>
+                                    <td>TAW</td>
+                                    <td>Transport</td>
+                                    <td>
+                                        <t t-esc="docs.transport_allowance"
+                                            t-options='{"widget": "monetary", "display_currency": currency}' />
+                                    </td>
+                                </tr>
+                            </t>
+
+
+                            <t t-if="getwizardValue.meal_allowance">
+                                <tr>
+                                    <td>MAW</td>
+                                    <td>Meal Allowance</td>
+                                    <td>
+                                        <t t-esc="docs.meal_allowance"
+                                            t-options='{"widget": "monetary", "display_currency": currency}' />
+                                    </td>
+                                </tr>
+                            </t>
+
+                            <t t-if="getwizardValue.dressing">
+                            <tr>
+                                <td>DSG</td>
+                                <td>Dressing</td>
+                                <td>
+                                    <t t-esc="docs.dressing"
+                                        t-options='{"widget": "monetary", "display_currency": currency}' />
+                                </td>
+                            </tr>
+                            </t>
+
+                            <t t-if="getwizardValue.employer_pension">
+                            <tr>
+                                <td>EPS</td>
+                                <td>Employer's Pension</td>
+                                <td>
+                                    <t t-esc="docs.employer_pension"
+                                        t-options='{"widget": "monetary", "display_currency": currency}' />
+                                </td>
+                            </tr>
+                            </t>
+
+                            <t t-if="getwizardValue.paye">
+                            <tr>
+                                <td>PYE</td>
+                                <td>Paye</td>
+                                <td>
+                                    <t t-esc="docs.paye" t-options='{"widget": "monetary", "display_currency": currency}' />
+                                </td>
+                            </tr>
+                            </t>
+
+                            <t t-if="getwizardValue.medical_plan">
+                            <tr>
+                                <td>MPLN</td>
+                                <td>Medical plan</td>
+                                <td>
+                                    <t t-esc="docs.medical_plan"
+                                        t-options='{"widget": "monetary", "display_currency": currency}' />
+                                </td>
+                            </tr>
+
+                            </t>
+
+                            <t t-if="getwizardValue.leave_allowance">
+                            <tr>
+                                <td>LAWS</td>
+                                <td>Leave Allowance</td>
+                                <td>
+                                    <t t-esc="docs.leave_allowance"
+                                        t-options='{"widget": "monetary", "display_currency": currency}' />
+                                </td>
+                            </tr>
+
+                            </t>
+
+                            <t t-if="getwizardValue.gratutity_plan">
+                            <tr>
+                                <td>GTPLN</td>
+                                <td>Gratutity Plan</td>
+                                <td>
+                                    <t t-esc="docs.gratutity_plan"
+                                        t-options='{"widget": "monetary", "display_currency": currency}' />
+                                </td>
+                            </tr>
+                            </t>
+
+                            <t t-if="getwizardValue.monthly_gross">
+                            <tr>
+                                <td>MG/ME</td>
+                                <td>Monthly Gross/ Monthly emolument</td>
+                                <td>
+                                    <t t-esc="docs.monthly_gross"
+                                        t-options='{"widget": "monetary", "display_currency": currency}' />
+                                </td>
+                            </tr>
+                            </t>
+
+                            <t t-if="getwizardValue.life_assurance_plan">
+                            <tr>
+                                <td>LASP</td>
+                                <td>Life Assurance Plan</td>
+                                <td>
+                                    <t t-esc="docs.life_assurance_plan"
+                                        t-options='{"widget": "monetary", "display_currency": currency}' />
+                                </td>
+                            </tr>
+                            </t>
+
+                        </table>
+                    </div>
+                </main>
+
+            </t>
+        </t>
+    </template>
+</odoo>
